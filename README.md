@@ -1,8 +1,8 @@
 # Fake vs Real Image Detector
 
-## AI-Generated Image Detection using AIDE + NPR Ensemble
+## AI Generated Image Detection using AIDE + NPR Ensemble
 
-A deep learning ensemble model that detects whether an image is real (camera-captured) or fake (AI-generated). Combines semantic analysis via CLIP-ViT with pixel-level forensic analysis to achieve 99.47% accuracy across multiple AI generators.
+A deep learning ensemble model that detects whether an image is real (camera captured) or fake (AI generated). Combines semantic analysis via CLIP-ViT with pixel-level forensic analysis to achieve 99.47% accuracy across multiple AI generators.
 
 ---
 
@@ -147,7 +147,7 @@ All three files are required for ensemble inference.
 
 ## How to Use
 
-1. Download all three model files from Google Drive: [Model Files Link]
+1. Download all three model (How download files, this step is mentioned in the "Model Files" Section).
 2. Upload the files to your working directory
 3. Install requirements: `pip install torch torchvision transformers albumentations pillow numpy`
 4. Run the following code:
