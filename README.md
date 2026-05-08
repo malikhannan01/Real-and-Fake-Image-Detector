@@ -8,7 +8,7 @@ A deep learning ensemble model that detects whether an image is real (camera-cap
 
 ## Overview
 
-With the rise of AI-generated images from models like DALL-E, Midjourney, and Stable Diffusion, the ability to distinguish real photos from synthetic ones is critical for combating misinformation and digital forensics.
+With the rise of AI generated images from models like DALL-E, Midjourney, and Stable Diffusion, the ability to distinguish real photos from synthetic ones is critical for combating misinformation and digital forensics.
 
 This project implements a dual-branch ensemble architecture that combines two complementary detection methods. The AIDE branch using CLIP-ViT analyzes high-level semantic features and frequency artifacts. The NPR branch using pixel correlation examines local pixel relationships that reveal AI generation fingerprints. The ensemble achieves 99.47% accuracy across 4 different AI generators on the DeepGuardDB benchmark.
 
@@ -101,7 +101,9 @@ Due to GitHub size limits, the large model files are stored on Google Drive.
 | npr_branch_best.pth | Best NPR (Pixel Correlation) model | 18 MB |
 | ensemble_head_best.pth | Best Ensemble Classifier | 2 MB |
 
+
 Download aide_branch_best.pth file from Google Drive using the link below. While other required project files and resources can be downloaded directly from this repository:
+
 https://drive.google.com/file/d/1pb8R9edNLtAU19enPiwQRo8dY7nXRO81/view?usp=sharing
 
 All three files are required for ensemble inference.
@@ -134,7 +136,7 @@ All three files are required for ensemble inference.
 
 ## Future Improvements
 - Train on larger datasets such as GenImage or ArtiFact 240K  
-- Add test-time augmentation for better robustness  
+- Add test time augmentation for better robustness  
 - Implement multi-scale inference for improved accuracy  
 - Include frequency domain analysis branch  
 - Extend system to deepfake video detection  
@@ -145,6 +147,11 @@ All three files are required for ensemble inference.
 
 ## How to Use
 
+1. Download all three model files from Google Drive: [Model Files Link]
+2. Upload the files to your working directory
+3. Install requirements: `pip install torch torchvision transformers albumentations pillow numpy`
+4. Run the following code:
+
 ```python
 import torch
 from torchvision import transforms
@@ -153,9 +160,8 @@ from model import AIDEBranch, NPRBranch, EnsembleClassifier
 from transformers import CLIPModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# Download model files from Google Drive link above
 clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+
 aide_model = AIDEBranch(clip_model).to(device)
 aide_model.load_state_dict(torch.load("aide_branch_best.pth"))
 npr_model = NPRBranch().to(device)
@@ -172,7 +178,7 @@ transform = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
-image = Image.open("test_image.jpg").convert("RGB")
+image = Image.open("your_image.jpg").convert("RGB")
 img_tensor = transform(image).unsqueeze(0).to(device)
 
 with torch.no_grad():
@@ -182,7 +188,7 @@ with torch.no_grad():
     logits = ensemble_head(combined)
     probs = torch.softmax(logits, dim=1)
 
-predicted_class = torch.argmax(probs, dim=1).item()
-confidence = probs[0][predicted_class].item() * 100
+pred = torch.argmax(probs, dim=1).item()
+conf = probs[0][pred].item() * 100
 labels = ["Real", "Fake"]
-print(f"Prediction: {labels[predicted_class]} ({confidence:.1f}%)")
+print(f"Prediction: {labels[pred]} ({conf:.1f}%)")
