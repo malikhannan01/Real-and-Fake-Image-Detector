@@ -101,8 +101,8 @@ Due to GitHub size limits, the large model files are stored on Google Drive.
 | npr_branch_best.pth | Best NPR (Pixel Correlation) model | 18 MB |
 | ensemble_head_best.pth | Best Ensemble Classifier | 2 MB |
 
-Download all three files from Google Drive:
-https://drive.google.com/drive/folders/your-folder-link-here
+Download aide_branch_best.pth file from Google Drive using the link below. While other required project files and resources can be downloaded directly from this repository:
+https://drive.google.com/file/d/1pb8R9edNLtAU19enPiwQRo8dY7nXRO81/view?usp=sharing
 
 All three files are required for ensemble inference.
 
@@ -120,6 +120,28 @@ All three files are required for ensemble inference.
 8. Optional Grad-CAM and NPR heatmaps for explainability
 
 ---
+
+## Limitations
+- Trained on 12K images, so it may not generalize well to completely unseen image generators  
+- External real-world images can sometimes be misclassified as fake  
+- Dataset is limited to DeepGuardDB distribution  
+- No support for video or deepfake video detection  
+- Input size (224x224) may miss fine details in high-resolution images  
+- Requires both model branches loaded, using approx. 350MB GPU memory  
+- Not tested against adversarial attacks or advanced evasion techniques  
+
+---
+
+## Future Improvements
+- Train on larger datasets such as GenImage or ArtiFact 240K  
+- Add test-time augmentation for better robustness  
+- Implement multi-scale inference for improved accuracy  
+- Include frequency domain analysis branch  
+- Extend system to deepfake video detection  
+- Deploy as a web API for real-time usage  
+- Optimize model for edge devices and low-resource environments
+
+  ---
 
 ## How to Use
 
